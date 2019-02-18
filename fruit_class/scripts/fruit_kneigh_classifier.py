@@ -8,33 +8,45 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from matplotlib import cm
 
+##################################################
+##################################################
 # Example of Supervised Learning - Classfication 
+##################################################
+##################################################
 
+##################################################
 # Load data
+#################################################
+#
+# The file contains the mass, height, and width of a selection of oranges, lemons and apples. 
+# The heights were measured along the core of the fruit. 
+# The widths were the widest width perpendicular to the height.
+
 fruits = pd.read_table('../data/fruit_data_with_colors.txt')
 
-
+#
 # Dataset to train system 
+#
 # color_score: 1-> Red, 0-> Violet
 print (fruits.head())
 
-
+#
 # create a mapping from fruit label value to fruit name to make results easier to interpret
+#
 lookup_fruit_name = dict(zip(fruits.fruit_label.unique(), fruits.fruit_name.unique()))   
-###print (lookup_fruit_name)
+print (lookup_fruit_name)
 
-# The file contains the mass, height, and width of a selection of oranges, lemons and apples. The heights were measured along the core of the fruit. The widths were the widest width perpendicular to the height.
 
-# ### Examining the data
+##################################################
+# Create Train and Test datasets
+##################################################
+#
 # Always split data into Train and Test data to avoid our algoritm be only valid for our trainig dataset (X_train, X_test, y_train, y_test) 
 # X is input parameters using which prediction is to be made (features)
 # y is the output which is the prediction of fruit name (targets) fruit_label is the target label
 # Following is the way to split the data into default 75%/25% Train-Test
 
-
-# ### Create train-test split
-
-# For this example, we use the mass, width, and height features of each fruit instance
+# For this example, we use the mass, width, and height features (X) of each fruit instance (y)
 X = fruits[['mass', 'width', 'height']]
 y = fruits['fruit_label']
 
@@ -50,37 +62,59 @@ ax.scatter(X_train['mass'], X_train['width'], X_train['height'], c = y_train, ma
 ax.set_xlabel('mass')
 ax.set_ylabel('width')
 ax.set_zlabel('height')
-###plt.show()
+plt.show()
 
 
-# ### Create classifier object
+
+###################################################
+# Configure, train and test ML algorithm, K-Nearest
+###################################################
+#
+# Create classifier object
 # We will apply K-Nearest Neighbour algorithm of classification
 knn = KNeighborsClassifier(n_neighbors = 5)
 
-
-# ### Train the classifier (fit the estimator) using the training data
+#
+# Train the classifier (fit the estimator) using the training data
+#
 knn.fit(X_train, y_train)
 
+#
+# Test the classfier.
+# Estimate the accuracy of the classifier on future data, using the test data
+#
 
-# ### Estimate the accuracy of the classifier on future data, using the test data
 print "Accuracy: " + str (knn.score(X_test, y_test))
 
-# ### Use the trained k-NN classifier model to classify new, previously unseen objects
 
+
+######################################################
+# Classify new unseen data
+######################################################
+
+#
+# Use the trained k-NN classifier model to classify new, previously unseen objects
 # first example: a small fruit with mass 20g, width 4.3 cm, height 5.5 cm
+#
 fruit_prediction = knn.predict([[20, 4.3, 5.5]])
 lookup_fruit_name[fruit_prediction[0]]
 print "Prediction for mass=20, width=4.3, height=5.5: " + str (lookup_fruit_name[fruit_prediction[0]])
 
-
-# second example: a larger, elongated fruit with mass 100g, width 6.3 cm, height 8.5 cm
-fruit_prediction = knn.predict([[100, 6.3, 8.5]])
+#
+# second example: a larger, elongated fruit with mass 150g, width 7.3 cm, height 7.5 cm
+#
+fruit_prediction = knn.predict([[200, 8.3, 8.5]])
 lookup_fruit_name[fruit_prediction[0]]
+print "Prediction for mass=200, width=8.3, height=8.5: " + str (lookup_fruit_name[fruit_prediction[0]])
 
-print "Prediction for mass=100, width=6.3, height=8.5: " + str (lookup_fruit_name[fruit_prediction[0]]) 
 
+####################################################
+# Tune k-NN algorithm 
+####################################################
 
-# ### How sensitive is k-NN classification accuracy to the choice of the 'k' parameter?
+#
+# How sensitive is k-NN classification accuracy to the choice of the 'k' parameter?
+#
 
 k_range = range(1,20)
 scores = []
@@ -95,10 +129,12 @@ plt.xlabel('k')
 plt.ylabel('accuracy')
 plt.scatter(k_range, scores)
 plt.xticks([0,5,10,15,20]);
-###plt.show()
+plt.show()
 
 
-# ### How sensitive is k-NN classification accuracy to the train/test split proportion?
+#
+# How sensitive is k-NN classification accuracy to the train/test split proportion?
+#
 
 t = [0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
 
@@ -117,4 +153,4 @@ for s in t:
 
 plt.xlabel('Training set proportion (%)')
 plt.ylabel('accuracy');
-###plt.show()
+plt.show()
