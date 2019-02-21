@@ -6,8 +6,12 @@ Machine Learning with Python
 
 In this repo you can find simple examples of running ML with Python.
 
-### fruit_class
-Simple fruit classificator
+### Supervised
+ML Supervised samples
+
+### Unsupervised
+ML Unsupervised samples
+
 
 ### DDA-Machine_Learning
 Base ML scripts used in my personal contribution to Data Driven Astrophysics with ML. 
