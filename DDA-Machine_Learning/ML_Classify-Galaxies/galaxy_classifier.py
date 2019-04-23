@@ -17,6 +17,7 @@ def rf_predict_actual(data, n_estimators):
   # instantiate a random forest classifier
   rfc = RandomForestClassifier(n_estimators=n_estimators)
   
+  # train the model to get predicted and actual classes
   # get predictions using 10-fold cross validation with cross_val_predict
   predicted = cross_val_predict(rfc, features, targets, cv=10)
 
