@@ -20,6 +20,8 @@ Base ML scripts used in my personal contribution to Data Driven Astrophysics wit
 ## Installing and running it with Red Hat Fedora container.
 
 ```
+$ git clone https://github.com/bchardim/python-ml.git 
+$ cd python-ml
 $ sudo docker build -t fedora-python-ml .
 $ bash docker-run-notebook.sh
 [I 11:05:23.661 NotebookApp] Writing notebook server cookie secret to /astropy/.local/share/jupyter/runtime/notebook_cookie_secret
